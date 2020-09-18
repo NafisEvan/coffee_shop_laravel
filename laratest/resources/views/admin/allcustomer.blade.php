@@ -60,7 +60,7 @@
                     </li>
                    
                    <li >
-                        <a href="/admin_request/request" ><i class="fa fa-bell "></i>Customer Request <span class="badge"></span></a>
+                        <a href="/admin/admin_request" ><i class="fa fa-bell "></i>Customer Request <span class="badge"></span></a>
                     </li>
                     
                     <li>

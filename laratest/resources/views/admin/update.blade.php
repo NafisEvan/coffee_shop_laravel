@@ -137,6 +137,10 @@
       <input type="text" class="form-control" id="inputPassword3">
     </div>
   </div>
+   <h4 style="color: red"> @foreach($errors->all() as $err)
+    {{$err}} <br>
+  @endforeach</h4>
+{{session('msg')}}
    
 
   <div class="form-group row">

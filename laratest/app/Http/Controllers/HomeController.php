@@ -46,6 +46,42 @@ function update(){
         return view('admin.update');
     }
 
+   
+  public function update_save(Request $req){
+          
+        $validation = Validator::make($req->all(), [
+            'name'            => 'required', 
+            'password'        => 'required', 
+            'email'           => 'required|unique:users|email', 
+            'phone'           => 'bail|required|size:11', 
+            'address'         => 'required', 
+            
+                   
+        ]);
+            
+       if($validation->fails()){
+            return back()
+                    ->with('errors', $validation->errors())
+                    ->withInput();
+
+            return redirect()->route('admin.addadmin')
+                            ->with('errors', $validation->errors())
+                            ->withInput();
+            }
+
+              else
+             {
+               DB::table('users')->update(
+             ['name' =>$req->name ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'image'=>$req->salary,'userType'=>'admin' ]
+            );
+          $req->session()->flash('msg', 'Admin Has been Added Successfully');
+           return view('admin.update');   
+
+
+           }
+       }
+
+
 
 //allemp
 
@@ -82,13 +118,88 @@ function addadmin(){
         return view('admin.addadmin');   
     }
 
-//allcustomer
+public function addadmin_save(Request $req){
+          
+        $validation = Validator::make($req->all(), [
+            'name'            => 'required', 
+            'username'        => 'required|unique:users', 
+            'password'        => 'required', 
+            'email'           => 'required|unique:users|email', 
+            'phone'           => 'bail|required|size:11', 
+            'address'         => 'required', 
+            'gender'          => 'required', 
+            'salary'          => 'required', 
+                   
+        ]);
+            
+       if($validation->fails()){
+            return back()
+                    ->with('errors', $validation->errors())
+                    ->withInput();
+
+            return redirect()->route('admin.addadmin')
+                            ->with('errors', $validation->errors())
+                            ->withInput();
+            }
+
+              else
+             {
+               DB::table('users')->insert(
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'admin' ]
+            );
+          $req->session()->flash('msg', 'Admin Has been Added Successfully');
+           return view('admin.addadmin');   
+
+
+           }
+       }
+
+
+//add manager
 
 function addmanager(){
 
         
         return view('admin.addmanager');   
+
     }
+
+    public function addmanager_save(Request $req){
+          
+        $validation = Validator::make($req->all(), [
+            'name'            => 'required', 
+            'username'        => 'required|unique:users', 
+            'password'        => 'required', 
+            'email'           => 'required|unique:users|email', 
+            'phone'           => 'bail|required|size:11', 
+            'address'         => 'required', 
+            'gender'          => 'required', 
+            'salary'          => 'required', 
+                   
+        ]);
+            
+       if($validation->fails()){
+            return back()
+                    ->with('errors', $validation->errors())
+                    ->withInput();
+
+            return redirect()->route('admin.addadmin')
+                            ->with('errors', $validation->errors())
+                            ->withInput();
+            }
+
+              else
+             {
+               DB::table('users')->insert(
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'manager' ]
+            );
+          $req->session()->flash('msg', 'Manager Has been Added Successfully');
+           return view('admin.addmanager');   
+
+
+          
+           }
+       }
 
 //add deliveryman
 function adddelivery(){
@@ -96,6 +207,44 @@ function adddelivery(){
         
         return view('admin.adddelivery');   
     }
+
+
+    public function adddelivery_save(Request $req){
+          
+        $validation = Validator::make($req->all(), [
+            'name'            => 'required', 
+            'username'        => 'required|unique:users', 
+            'password'        => 'required', 
+            'email'           => 'required|unique:users|email', 
+            'phone'           => 'bail|required|size:11', 
+            'address'         => 'required', 
+            'gender'          => 'required', 
+            'salary'          => 'required', 
+                   
+        ]);
+            
+       if($validation->fails()){
+            return back()
+                    ->with('errors', $validation->errors())
+                    ->withInput();
+
+            return redirect()->route('admin.addadmin')
+                            ->with('errors', $validation->errors())
+                            ->withInput();
+            }
+
+              else
+             {
+               DB::table('users')->insert(
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'delivery_m' ]
+            );
+          $req->session()->flash('msg', 'deliveryman Has been Added Successfully');
+           return view('admin.addmanager');   
+
+
+          
+           }
+       }
 
 //discount
 function discount(){
@@ -124,45 +273,4 @@ function ingredient(){
 
 
 
-
-
-    function edit($id){
-
-    	$users = $this->getStudentList();
-
-    	//find one student by ID from array
-
-    	$user = ['id'=>'2', 'name'=>'abc','email'=>'abc@aiub.com', 'password'=>'456'];
-    	return view('home.edit')->with('user', $user);
-
-    }
-
-  
-
-    function delete($id){
-
-    	$users = $this->getStudentList();
-    	//show comfirm view
-
-    	return view('home.delete')->with('user', $user);
-
-    }
-
-    function destroy($id, Request $request){
-    	
-    	$users = $this->getStudentList();
-    	//find student by id & delete
-    	//updated list
-
-    	return view('home.index')->with('users', $users);
-    }
-
-
-    function getStudentList(){
-    	return  [
-	    			['id'=>'1', 'name'=>'alamin','email'=>'abc@gmail.com', 'password'=>'123'],
-	    			['id'=>'2', 'name'=>'abc','email'=>'abc@aiub.com', 'password'=>'456'],
-	    			['id'=>'3', 'name'=>'xyz','email'=>'xyz@gmail.com', 'password'=>'789']
-				];
-    }
 }

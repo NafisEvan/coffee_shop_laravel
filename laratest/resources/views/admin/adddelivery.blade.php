@@ -109,37 +109,37 @@
          <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="name" required="">
+      <input type="text" class="form-control" name="name" >
     </div>
   </div>
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label">User Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="uname" required="">
+      <input type="text" class="form-control" name="username" >
     </div>
   </div>
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" name="password" required="">
+      <input type="password" class="form-control" name="password" >
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" name="email"required="">
+      <input type="email" class="form-control" name="email">
     </div>
   </div>
    <div class="form-group row">
     <label for="inputNumber3" class="col-sm-2 col-form-label">Phone No</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" name="phone"required="">
+      <input type="number" class="form-control" name="phone">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="address" required="">
+      <input type="text" class="form-control" name="address" >
     </div>
   </div>
    <div class="form-group row">
@@ -153,9 +153,13 @@
    <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Salary</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" name="salary" required="">
+      <input type="number" class="form-control" name="salary" >
     </div>
   </div>
+   <h4 style="color: red"> @foreach($errors->all() as $err)
+    {{$err}} <br>
+  @endforeach</h4>
+{{session('msg')}}
  
 
   <div class="form-group row">
