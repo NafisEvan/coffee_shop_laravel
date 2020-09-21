@@ -103,55 +103,58 @@
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-            <center><h1>Update User</h1></center>  
+            <center><h1>Update Employee</h1></center>  
 
        <form method="post">
          <div class="form-group row">
+           @foreach($emp as $user)
     <label for="inputText3" class="col-sm-2 col-form-label" >Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="name" required="" value="<%= user.name %>">
+      <input type="text" class="form-control" name="name" required="" value="{{$user->name}} ">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label">User Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="uname" readonly="" value="<%= user.username %>">
+      <input type="text" class="form-control" name="uname" readonly="" value="{{$user->username}} ">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" name="password" required=""  value="<%= user.password %>">
+      <input type="password" class="form-control" name="password" required=""  value="{{
+      $user->password}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" name="email"required="" value="<%= user.email %>">
+      <input type="email" class="form-control" name="email"required="" value="{{ $user->email}}">
     </div>
   </div>
    <div class="form-group row">
     <label for="inputNumber3" class="col-sm-2 col-form-label">Phone No</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" name="phone"required="" value="<%= user.phone %>">
+      <input type="number" class="form-control" name="phone"required="" value="{{$user->phone}}">
     </div>
   </div>
   <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Address</label>
+    <label for="inputAddress3" class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="address" required=""  value="<%= user.address %>">
+      <input type="text" class="form-control" name="address" required=""  value="{{ $user->address }}">
     </div>
   </div>
    
 
    <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Salary</label>
+    <label for="salary" class="col-sm-2 col-form-label">Salary</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="salary" required=""  value="<%= user.salary %>">
+      <input type="number" class="form-control" name="salary" required=""  value="{{$user->salary}}">
     </div>
   </div>
   
- 
+ @endforeach
+ {{session('upmsg')}}
 
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label"></label>

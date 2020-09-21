@@ -35,8 +35,38 @@ function request(Request $req){
     }
 
 
+//accept
 
+   public function accept($id){  
 
+        $accept = DB::table('customer')
+                   ->where('id',$id)
+                    ->update( ['status' =>'1' ]);
+                       
+        return redirect()->route('admin.request'); 
+    }
+
+//reject
+
+   public function reject($id){  
+
+        $reject = DB::table('customer')
+                   ->where('id',$id)
+                    ->update( ['status' =>'2' ]);
+                       
+        return redirect()->route('admin.request'); 
+    }
+
+//block
+
+   public function block($id){  
+
+        $reject = DB::table('customer')
+                   ->where('id',$id)
+                    ->update( ['status' =>'4' ]);
+                       
+        return redirect()->route('admin.allcustomer'); 
+    }
 
  //update
 
@@ -94,6 +124,55 @@ function allemp(Request $req){
         return view('admin.allemp')
                      ->with('emp', $emp );
     }
+
+//Update Employee
+
+function updateEmp($id){
+
+         $emp = DB::table('users')
+                       ->where('id',$id)
+                       ->get();
+        
+        return view('admin.updateuser')
+                     ->with('emp', $emp );
+    }
+
+
+//Update Employee Post
+
+function updateEmp_post(Request $req,$id){
+
+
+                  $update = DB::table('users')
+                            ->where('id',$id)
+                            ->update( ['name' =>$req->name,'password' =>$req->password,'phone' =>$req->phone, 'address' =>$req->address, 'salary' =>$req->salary ]);
+
+                   $emp = DB::table('users')
+                       ->where('id',$id)
+                       ->get();
+        $req->session()->flash('upmsg', 'Update Has been done Successfully');
+
+      return view('admin.updateuser')
+                     ->with('emp', $emp );
+ 
+
+    }
+
+
+
+
+//delete
+
+   public function delete($id){  
+
+        $reject = DB::table('users')
+                   ->where('id',$id)
+                    ->delete();
+                       
+        return redirect()->route('admin.allemp'); 
+    }
+    
+
 
 
 //allcustomer
@@ -247,18 +326,29 @@ function adddelivery(){
        }
 
 //discount
-function discount(){
+public function give($id){
 
+             $dis = DB::table('food')
+                       ->where('id',$id)
+                       ->get();
         
-        return view('admin.discount');   
+        return view('admin.give')
+                     ->with('dis', $dis );  
     }
 
-//updateuser
-function updateuser(){
+public function give_post(Request $req,$id){
 
+            $update = DB::table('food')
+                            ->where('id',$id)
+                            ->update( ['discount_amount' =>$req->discount ]);
+
+                    $dis = DB::table('food')
+                       ->where('id',$id)
+                       ->get();
+        $req->session()->flash('dismsg', 'Discount Has been Given Successfully');  
+        return view('admin.give')
+                     ->with('dis', $dis );  
         
-        return view('admin.updateuser');      
-
     }
 
 
