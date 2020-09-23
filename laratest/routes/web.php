@@ -16,9 +16,16 @@ Route::get('/invoice', function(){
 	return $pdf->download('invoice.pdf');
 });
 
+//login
+Route::get('/login', 'LoginController@index')->name('login.index');
+Route::post('/login', 'LoginController@verify')->name('login.index');
+
+
 //Route::get('pdfview',array('as'=>'pdfview','uses'=>'ItemController@pdfview'));
 
-Route::get('/admin', 'HomeController@index');
+Route::group(['middleware'=>['sess']], function(){
+
+Route::get('/admin', 'HomeController@index')->name('admin.index');
 Route::get('admin/admin_request', 'HomeController@request')->name('admin.request');
 Route::get('admin/update', 'HomeController@update');
 Route::post('admin/update', 'HomeController@update_save');
@@ -35,12 +42,15 @@ Route::get('admin/adddelivery', 'HomeController@adddelivery');
 Route::post('admin/adddelivery', 'HomeController@adddelivery_save');
 Route::get('admin/give/{id}', 'HomeController@give')->name('admin.give');
 Route::post('admin/give/{id}', 'HomeController@give_post');
-Route::get('admin/updateuser', 'HomeController@updateuser'); 
-Route::get('admin/update/{id}', 'HomeController@updateEmp'); 
+Route::get('admin/updateuser', 'HomeController@updateuser');
+Route::get('admin/update/{id}', 'HomeController@updateEmp');
 Route::post('admin/update/{id}', 'HomeController@updateEmp_post');
+Route::get('admin/download/{id}', 'HomeController@export');
+Route::get('admin/download/{id}', 'HomeController@export1');
+
 Route::get('admin/delete/{id}', 'HomeController@delete');
-Route::get('admin/ingredient', 'HomeController@ingredient');                
+Route::get('admin/ingredient', 'HomeController@ingredient');
 
+  });
 
-
-
+Route::get('/logout', 'LogoutController@index');

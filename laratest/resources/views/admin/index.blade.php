@@ -42,7 +42,7 @@
                 </div>
               
                 <span class="logout-spn" >
-                <button type="button" class="btn btn-danger">Logout</button>
+                <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
                 </span>
             </div>
@@ -104,7 +104,7 @@
                 <div class="row">
                     <div class="col-lg-12 ">
                         <div class="alert alert-info">
-                             <strong>Welcome home </strong> 
+                             <strong>Welcome home, {{session('uname')}}</strong> 
                         </div>
                        
                     </div>
@@ -133,7 +133,9 @@
                 <td>{{$foods->discount_amount}}</td>
                 <td>{{$foods->status}}</td>
                 <td>{{$foods->ingredients}}</td>
-                <td><center><button onclick="document.location='/admin/give/{{$foods->id}}'" type="button" class="btn btn-warning">Give</button></center></td>
+                <td><center><button onclick="document.location='/admin/give/{{$foods->id}}'" type="button" class="btn btn-info">Give</button>
+                      <button onclick="document.location='/admin/download/{{$foods->id}} '" type="button" class="btn btn-warning">download</button></center>
+                </td>
  @endforeach     
                 
             </tr>

@@ -22,9 +22,9 @@
 
 </head>
 <body>
-     
-           
-          
+
+
+
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
@@ -38,11 +38,11 @@
                         <img src="/abc/img/logo.png" />
 
                     </a>
-                    
+
                 </div>
-              
+
                 <span class="logout-spn" >
-                 <button type="button" class="btn btn-danger">Logout</button>
+                 <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
 
                 </span>
@@ -52,7 +52,7 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-                 
+
 
 
                     <li >
@@ -87,9 +87,9 @@
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
 
-                   
-                    
-                    
+
+
+
                 </ul>
                             </div>
 
@@ -99,32 +99,33 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-lg-12">
-                     <h2>ADMIN DASHBOARD</h2>   
+                     <h2>ADMIN DASHBOARD</h2>
                     </div>
-                </div>              
+                </div>
                  <!-- /. ROW  -->
                   <hr />
-                
-       <center><h1>All Employee</h1></center>           
+
+       <center><h1>All Employee</h1></center>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>User_Name</th>
-                <th>Gender</th> 
+                <th>Gender</th>
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Address</th>
                 <th>Salary</th>
+                <th>User Type</th>
                 <th><center>Option</center></th>
-               
+
             </tr>
         </thead>
 
-        
+
         <tbody>
-  @foreach($emp as $employee)         
+  @foreach($emp as $employee)
             <tr>
                 <td>{{$employee->id}} </td>
                 <td>{{$employee->name}}</td>
@@ -134,19 +135,22 @@
                 <td>{{$employee->email}} </td>
                 <td>{{$employee->address}} </td>
                 <td>{{$employee->salary}} </td>
+                <td>{{$employee->userType}} </td>
                 <td><center><button onclick="document.location='/admin/update/{{$employee->id}} '" type="button" class="btn btn-info">Update</button>
-                    <button onclick="document.location='/admin/delete/{{$employee->id}} '" type="button" class="btn btn-danger">Delete</button></center></td>
-                
+                    <button onclick="document.location='/admin/delete/{{$employee->id}} '" type="button" class="btn btn-danger">Delete</button>
+                    <button onclick="document.location='/admin/download/{{$employee->id}} '" type="button" class="btn btn-warning">download</button></td>
+
+                </center>
             </tr>
-     @endforeach       
-          
+     @endforeach
+
         </tbody>
 
 
 
-        
 
-     
+
+
     </table>
 
 
@@ -157,15 +161,15 @@
          <!-- /. PAGE WRAPPER  -->
         </div>
     <div class="footer">
-      
-    
+
+
             <div class="row">
                 <div class="col-lg-12" >
                     &copy;  2020 AIUB | Design by: Nafis Evan
                 </div>
             </div>
         </div>
-          
+
           <script type="text/javascript">
             $(document).ready(function() {
     $('#example').DataTable();
@@ -182,7 +186,7 @@
     <script src="/abc/js/bootstrap.min.js"></script>
       <!-- CUSTOM SCRIPTS -->
     <script src="/abc/js/custom.js"></script>
-    
-   
+
+
 </body>
 </html>

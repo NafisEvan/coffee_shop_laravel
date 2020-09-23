@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use DB;
+use Illuminate\Support\Facades\DB;
+use App\User;
 
 class HomeController extends Controller
 {
-   
 
-//index    
+
+//index
     function index(Request $req){
 
     	$food = DB::table('food')
@@ -37,90 +38,103 @@ function request(Request $req){
 
 //accept
 
-   public function accept($id){  
+   public function accept($id){
 
         $accept = DB::table('customer')
                    ->where('id',$id)
                     ->update( ['status' =>'1' ]);
-                       
-        return redirect()->route('admin.request'); 
+
+        return redirect()->route('admin.request');
     }
 
 //reject
 
-   public function reject($id){  
+   public function reject($id){
 
         $reject = DB::table('customer')
                    ->where('id',$id)
                     ->update( ['status' =>'2' ]);
-                       
-        return redirect()->route('admin.request'); 
+
+        return redirect()->route('admin.request');
     }
 
 //block
 
-   public function block($id){  
+   public function block($id){
 
         $reject = DB::table('customer')
                    ->where('id',$id)
                     ->update( ['status' =>'4' ]);
-                       
-        return redirect()->route('admin.allcustomer'); 
+
+        return redirect()->route('admin.allcustomer');
     }
 
  //update
 
-function update(){
+function update(Request $req){
 
-        
-        return view('admin.update');
+   $name=$req->session()->get('uname');
+        $update = DB::table('users')
+                   ->where('username',$name)
+                   ->get();
+                    
+        return view('admin.update')
+                  ->with('update',$update);
     }
 
-   
+
   public function update_save(Request $req){
-          
+
         $validation = Validator::make($req->all(), [
-            'name'            => 'required', 
-            'password'        => 'required', 
-            'email'           => 'required|unique:users|email', 
-            'phone'           => 'bail|required|size:11', 
-            'address'         => 'required', 
-            
-                   
+            'name'            => 'required',
+            'password'        => 'required',
+            'email'           => 'required|unique:users|email',
+            'phone'           => 'bail|required|size:11',
+            'address'         => 'required',
+
+
         ]);
-            
+
        if($validation->fails()){
             return back()
                     ->with('errors', $validation->errors())
                     ->withInput();
 
-            return redirect()->route('admin.addadmin')
+            return redirect()->route('admin.update')
                             ->with('errors', $validation->errors())
                             ->withInput();
             }
 
               else
              {
-               DB::table('users')->update(
-             ['name' =>$req->name ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'image'=>$req->salary,'userType'=>'admin' ]
+             	 $name=$req->session()->get('uname');
+               DB::table('users')
+                       ->where('username',$name)
+                      ->update(
+             ['name' =>$req->name ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address]
             );
-          $req->session()->flash('msg', 'Admin Has been Added Successfully');
-           return view('admin.update');   
+                      $update = DB::table('users')
+                   ->where('username',$name)
+                   ->get();
+          $req->session()->flash('msgup', 'Profile has been updated Successfully');
+           return view('admin.update')
+                  ->with('update',$update);
 
 
            }
+
        }
 
 
 
 //allemp
 
-function allemp(Request $req){
+   function allemp(Request $req){
 
-         $emp = DB::table('users')
-                       ->where('userType','employee')
-                       ->get();
-        
+            $emp = DB::table('users')->get();
+//->where('userType','employee')
+
+
         return view('admin.allemp')
                      ->with('emp', $emp );
     }
@@ -132,7 +146,7 @@ function updateEmp($id){
          $emp = DB::table('users')
                        ->where('id',$id)
                        ->get();
-        
+
         return view('admin.updateuser')
                      ->with('emp', $emp );
     }
@@ -140,10 +154,34 @@ function updateEmp($id){
 
 //Update Employee Post
 
+
 function updateEmp_post(Request $req,$id){
+                
+
+                 $validation = Validator::make($req->all(), [
+            'name'            => 'required',
+            'password'        => 'required',
+            'email'           => 'required|unique:users|email',
+            'phone'           => 'bail|required|size:11',
+            'address'         => 'required',
+             'salary'         => 'required',
 
 
-                  $update = DB::table('users')
+        ]);
+
+       if($validation->fails()){
+            return back()
+                    ->with('errors', $validation->errors())
+                    ->withInput();
+
+            return redirect()->route('admin.updateuser')
+                            ->with('errors', $validation->errors())
+                            ->withInput();
+            }
+
+              else
+             {
+             	 $update = DB::table('users')
                             ->where('id',$id)
                             ->update( ['name' =>$req->name,'password' =>$req->password,'phone' =>$req->phone, 'address' =>$req->address, 'salary' =>$req->salary ]);
 
@@ -154,7 +192,13 @@ function updateEmp_post(Request $req,$id){
 
       return view('admin.updateuser')
                      ->with('emp', $emp );
- 
+
+
+           }
+
+
+                 
+
 
     }
 
@@ -163,27 +207,27 @@ function updateEmp_post(Request $req,$id){
 
 //delete
 
-   public function delete($id){  
+   public function delete($id){
 
         $reject = DB::table('users')
                    ->where('id',$id)
                     ->delete();
-                       
-        return redirect()->route('admin.allemp'); 
+
+        return redirect()->route('admin.allemp');
     }
-    
+
 
 
 
 //allcustomer
 
-function allcustomer(Request $req){ 
+function allcustomer(Request $req){
       $allcustomer = DB::table('customer')
                        ->where('status',1)
                        ->get();
 
 
-        
+
         return view('admin.allcustomer')
                     ->with('allcustomer', $allcustomer );
     }
@@ -193,24 +237,24 @@ function allcustomer(Request $req){
 
 function addadmin(){
 
-        
-        return view('admin.addadmin');   
+
+        return view('admin.addadmin');
     }
 
 public function addadmin_save(Request $req){
-          
+
         $validation = Validator::make($req->all(), [
-            'name'            => 'required', 
-            'username'        => 'required|unique:users', 
-            'password'        => 'required', 
-            'email'           => 'required|unique:users|email', 
-            'phone'           => 'bail|required|size:11', 
-            'address'         => 'required', 
-            'gender'          => 'required', 
-            'salary'          => 'required', 
-                   
+            'name'            => 'required',
+            'username'        => 'required|unique:users',
+            'password'        => 'required',
+            'email'           => 'required|unique:users|email',
+            'phone'           => 'bail|required|size:11',
+            'address'         => 'required',
+            'gender'          => 'required',
+            'salary'          => 'required',
+
         ]);
-            
+
        if($validation->fails()){
             return back()
                     ->with('errors', $validation->errors())
@@ -222,12 +266,13 @@ public function addadmin_save(Request $req){
             }
 
               else
+
              {
                DB::table('users')->insert(
-             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'admin' ]
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->image,'userType'=>'admin' ]
             );
           $req->session()->flash('msg', 'Admin Has been Added Successfully');
-           return view('admin.addadmin');   
+           return view('admin.addadmin');
 
 
            }
@@ -238,91 +283,121 @@ public function addadmin_save(Request $req){
 
 function addmanager(){
 
-        
-        return view('admin.addmanager');   
+
+        return view('admin.addmanager');
 
     }
 
     public function addmanager_save(Request $req){
-          
+
         $validation = Validator::make($req->all(), [
-            'name'            => 'required', 
-            'username'        => 'required|unique:users', 
-            'password'        => 'required', 
-            'email'           => 'required|unique:users|email', 
-            'phone'           => 'bail|required|size:11', 
-            'address'         => 'required', 
-            'gender'          => 'required', 
-            'salary'          => 'required', 
-                   
+            'name'            => 'required',
+            'username'        => 'required|unique:users',
+            'password'        => 'required',
+            'email'           => 'required|unique:users|email',
+            'phone'           => 'bail|required|size:11',
+            'address'         => 'required',
+            'gender'          => 'required',
+            'salary'          => 'required',
+
         ]);
-            
+
        if($validation->fails()){
             return back()
                     ->with('errors', $validation->errors())
                     ->withInput();
 
-            return redirect()->route('admin.addadmin')
+            return redirect()->route('admin.addmanager')
                             ->with('errors', $validation->errors())
                             ->withInput();
             }
 
               else
              {
+
+                  if($req->hasFile('pic')){
+                    $file = $req->file('pic');
+                    $image=date('mdYHis') . uniqid() .$file->getClientOriginalName();
+                     if($file->move('image',$image)){
                DB::table('users')->insert(
-             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'manager' ]
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$image,'userType'=>'manager' ]
             );
           $req->session()->flash('msg', 'Manager Has been Added Successfully');
-           return view('admin.addmanager');   
+           return view('admin.addmanager');
+                        }
+                     else{
+                               return redirect()->route('admin.adddmanager ');
+                         }
+
+                         }
+                         else{
+                               echo "File not found!";
+                            }
 
 
-          
            }
+            
+
        }
 
 //add deliveryman
 function adddelivery(){
 
-        
-        return view('admin.adddelivery');   
+
+        return view('admin.adddelivery');
     }
 
 
     public function adddelivery_save(Request $req){
-          
+
         $validation = Validator::make($req->all(), [
-            'name'            => 'required', 
-            'username'        => 'required|unique:users', 
-            'password'        => 'required', 
-            'email'           => 'required|unique:users|email', 
-            'phone'           => 'bail|required|size:11', 
-            'address'         => 'required', 
-            'gender'          => 'required', 
-            'salary'          => 'required', 
-                   
+            'name'            => 'required',
+            'username'        => 'required|unique:users',
+            'password'        => 'required',
+            'email'           => 'required|unique:users|email',
+            'phone'           => 'bail|required|size:11',
+            'address'         => 'required',
+            'gender'          => 'required',
+            'salary'          => 'required',
+
         ]);
-            
+
        if($validation->fails()){
             return back()
                     ->with('errors', $validation->errors())
                     ->withInput();
 
-            return redirect()->route('admin.addadmin')
+            return redirect()->route('admin.adddelivery')
                             ->with('errors', $validation->errors())
                             ->withInput();
             }
 
               else
              {
-               DB::table('users')->insert(
-             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->salary,'userType'=>'delivery_m' ]
+
+                  if($req->hasFile('pic')){
+                    $file = $req->file('pic');
+                    $image=date('mdYHis') . uniqid() .$file->getClientOriginalName();
+                     if($file->move('image',$image)){
+
+                     	 DB::table('users')->insert(
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$image,'userType'=>'delivery_m' ]
             );
           $req->session()->flash('msg', 'deliveryman Has been Added Successfully');
-           return view('admin.addmanager');   
+           return view('admin.adddelivery');
+                     }
+                     else{
+                               return redirect()->route('admin.adddelivery ');
+                         }
+
+                         }
+                         else{
+                               echo "File not found!";
+                            }
 
 
-          
            }
+    
        }
 
 //discount
@@ -331,9 +406,9 @@ public function give($id){
              $dis = DB::table('food')
                        ->where('id',$id)
                        ->get();
-        
+
         return view('admin.give')
-                     ->with('dis', $dis );  
+                     ->with('dis', $dis );
     }
 
 public function give_post(Request $req,$id){
@@ -345,22 +420,72 @@ public function give_post(Request $req,$id){
                     $dis = DB::table('food')
                        ->where('id',$id)
                        ->get();
-        $req->session()->flash('dismsg', 'Discount Has been Given Successfully');  
+        $req->session()->flash('dismsg', 'Discount Has been Given Successfully');
         return view('admin.give')
-                     ->with('dis', $dis );  
-        
+                     ->with('dis', $dis );
+
     }
 
 
 //ingredient
 function ingredient(){
 
-        
-        return view('admin.ingredient');       
+
+        return view('admin.ingredient');
 
     }
 
+//pdf
+        public function export( $id)
+           {
+               $data = DB::table('users')->where('id',$id)->orderBy('id','DESC')->first();
+               $proData="";
+               if(count((array)$data)>0){
+                   $proData .='<table align="center">
+                   ';
 
+                   foreach ($data as $key=>$item) {
+                        $proData .='
+                        <tr>
+                        <td>'.$key.'</td>
+                        <td align="center">'.$item.'</td>
+                        </tr>';
+                   }
+                   $proData .='</table>';
+               }
+               header('Content-Type: application/xls');
+               header('Content-Disposition: attachment; filename=order receipt.xls');
+               echo $proData;
+               //var_dump($data);
+               //echo count($data);
+               //return response()->json($data);
+           }
 
+           //food excl
+
+         public function export1( $id)
+           {
+               $data = DB::table('food')->where('id',$id)->orderBy('id','DESC')->first();
+               $proData="";
+               if(count((array)$data)>0){
+                   $proData .='<table align="center">
+                   ';
+
+                   foreach ($data as $key=>$item) {
+                        $proData .='
+                        <tr>
+                        <td>'.$key.'</td>
+                        <td align="center">'.$item.'</td>
+                        </tr>';
+                   }
+                   $proData .='</table>';
+               }
+               header('Content-Type: application/xls');
+               header('Content-Disposition: attachment; filename=order receipt.xls');
+               echo $proData;
+               //var_dump($data);
+               //echo count($data);
+               //return response()->json($data);
+           }
 
 }

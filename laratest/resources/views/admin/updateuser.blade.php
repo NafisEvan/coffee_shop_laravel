@@ -42,7 +42,7 @@
                 </div>
               
                 <span class="logout-spn" >
-               <button type="button" class="btn btn-danger">Logout</button>
+              <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
                 </span>
             </div>
@@ -110,7 +110,7 @@
            @foreach($emp as $user)
     <label for="inputText3" class="col-sm-2 col-form-label" >Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="name" required="" value="{{$user->name}} ">
+      <input type="text" class="form-control" name="name"  value="{{$user->name}} ">
     </div>
   </div>
   <div class="form-group row">
@@ -122,26 +122,26 @@
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" name="password" required=""  value="{{
+      <input type="password" class="form-control" name="password"   value="{{
       $user->password}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" name="email"required="" value="{{ $user->email}}">
+      <input type="email" class="form-control" name="email" value="{{ $user->email}}">
     </div>
   </div>
    <div class="form-group row">
     <label for="inputNumber3" class="col-sm-2 col-form-label">Phone No</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" name="phone"required="" value="{{$user->phone}}">
+      <input type="number" class="form-control" name="phone" value="{{$user->phone}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputAddress3" class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="address" required=""  value="{{ $user->address }}">
+      <input type="text" class="form-control" name="address"   value="{{ $user->address }}">
     </div>
   </div>
    
@@ -149,12 +149,17 @@
    <div class="form-group row">
     <label for="salary" class="col-sm-2 col-form-label">Salary</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" name="salary" required=""  value="{{$user->salary}}">
+      <input type="number" class="form-control" name="salary"  value="{{$user->salary}}">
     </div>
   </div>
   
  @endforeach
+  <h4 style="color: red"> @foreach($errors->all() as $err)
+    {{$err}} <br>
+  @endforeach</h4>
  {{session('upmsg')}}
+
+
 
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label"></label>

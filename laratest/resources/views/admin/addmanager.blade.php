@@ -42,7 +42,7 @@
                 </div>
               
                 <span class="logout-spn" >
-                 <button type="button" class="btn btn-danger">Logout</button>
+                 <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
 
                 </span>
@@ -154,6 +154,12 @@
     <label for="inputPassword3" class="col-sm-2 col-form-label">Salary</label>
     <div class="col-sm-10">
       <input type="number" class="form-control" name="salary" >
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-2 col-form-label">Image</label>
+    <div class="col-sm-10">
+      <input type="file" name="pic" >
     </div>
   </div>
    <h4 style="color: red"> @foreach($errors->all() as $err)

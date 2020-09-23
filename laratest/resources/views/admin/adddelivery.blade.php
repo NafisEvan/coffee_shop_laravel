@@ -22,9 +22,9 @@
 
 </head>
 <body>
-     
-           
-          
+
+
+
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
@@ -38,11 +38,11 @@
                         <img src="/abc/img/logo.png" />
 
                     </a>
-                    
+
                 </div>
-              
+
                 <span class="logout-spn" >
-               <button type="button" class="btn btn-danger">Logout</button>
+              <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
 
                 </span>
@@ -52,7 +52,7 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-                 
+
 
 
                     <li >
@@ -87,9 +87,9 @@
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
 
-                   
-                    
-                    
+
+
+
                 </ul>
                             </div>
 
@@ -99,13 +99,14 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-lg-12">
-                     <h2>ADMIN </h2>   
+                     <h2>ADMIN </h2>
                     </div>
-                </div>              
+                </div>
                  <!-- /. ROW  -->
                   <hr />
-            <center><h1>Add Delivery Man</h1></center>          
-        <form method="post">
+            <center><h1>Add Delivery Man</h1></center>
+
+        <form method="post" enctype="multipart/form-data">
          <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Name</label>
     <div class="col-sm-10">
@@ -148,19 +149,29 @@
      <label for="male">Male</label>
     <input type="radio" id="female" name="gender" value="female">
     <label for="male">Female</label>
+
   </div>
 
    <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Salary</label>
     <div class="col-sm-10">
+
       <input type="number" class="form-control" name="salary" >
     </div>
+    </div>
+
+   <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-2 col-form-label">Image</label>
+    <div class="col-sm-10">
+      <input type="file" name="pic" >
+    </div>
   </div>
+
    <h4 style="color: red"> @foreach($errors->all() as $err)
     {{$err}} <br>
   @endforeach</h4>
 {{session('msg')}}
- 
+
 
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
@@ -177,15 +188,15 @@
          <!-- /. PAGE WRAPPER  -->
         </div>
     <div class="footer">
-      
-    
+
+
             <div class="row">
                 <div class="col-lg-12" >
                     &copy;  2020 AIUB | Design by: Nafis Evan
                 </div>
             </div>
         </div>
-          
+
           <script type="text/javascript">
             $(document).ready(function() {
     $('#example').DataTable();
@@ -202,7 +213,7 @@
     <script src="/abc/js/bootstrap.min.js"></script>
       <!-- CUSTOM SCRIPTS -->
     <script src="/abc/js/custom.js"></script>
-    
-   
+
+
 </body>
 </html>

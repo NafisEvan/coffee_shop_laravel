@@ -42,7 +42,7 @@
                 </div>
               
                 <span class="logout-spn" >
-                <button type="button" class="btn btn-danger">Logout</button>
+                <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
 
                 </span>
@@ -105,50 +105,61 @@
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-            <center><h1>Update Profile</h1></center>          
-       <form>
+            <center><h1>Update Profile</h1></center>   
+                   
+       <form method="post">
+         @foreach($update as $updates) 
+            <div class="form-group row">
+    <label for="inputText3" class="col-sm-2 col-form-label">User Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->username}}" readonly="">
+    </div>
+  </div>
          <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputEmail3">
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->name}}" name="name">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label">Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputEmail3">
+      <input type="password" class="form-control" id="inputEmail3"value="{{$updates->password}}"name="password">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3">
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->email}}"name="email">
     </div>
   </div>
    <div class="form-group row">
     <label for="inputNumber3" class="col-sm-2 col-form-label">Phone</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputEmail3">
+      <input type="number" class="form-control" id="inputEmail3" name="phone" value="{{$updates->phone}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputPassword3">
+      <input type="text" class="form-control" id="inputPassword3"name="address" value="{{$updates->address}}">
     </div>
   </div>
+
+
    <h4 style="color: red"> @foreach($errors->all() as $err)
     {{$err}} <br>
   @endforeach</h4>
-{{session('msg')}}
+{{session('msgup')}}
    
-
+@endforeach
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
     <div class="col-sm-10">
       <center><button type="submit" class="btn btn-primary">Update</button></center>
     </div>
   </div>
+
 </form>
 
 

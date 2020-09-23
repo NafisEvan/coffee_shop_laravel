@@ -42,8 +42,7 @@
                 </div>
               
                 <span class="logout-spn" >
-                 <button type="button" class="btn btn-danger">Logout</button>
-
+                 <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
 
                 </span>
             </div>
