@@ -83,6 +83,9 @@
                         <a href="/admin/adddelivery"><i class="fa fa-plus"></i>Add Delivery Man</a>
                     </li>
                     <li>
+                        <a href="/admin/viewprofile"><i class="fa fa-eye"></i>View profile</a>
+                    </li>
+                    <li>
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
 

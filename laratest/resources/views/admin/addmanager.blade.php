@@ -84,6 +84,9 @@
                     <li>
                         <a href="/admin/adddelivery"><i class="fa fa-plus"></i>Add Delivery Man</a>
                     </li>
+                     <li>
+                        <a href="/admin/viewprofile"><i class="fa fa-eye"></i>View profile</a>
+                    </li>
                     <li>
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
@@ -105,7 +108,7 @@
                  <!-- /. ROW  -->
                   <hr />
             <center><h1>Add General Manger</h1></center>          
-              <form method="post">
+             <form method="post" enctype="multipart/form-data">
          <div class="form-group row">
     <label for="inputText3" class="col-sm-2 col-form-label" >Name</label>
     <div class="col-sm-10">

@@ -82,13 +82,27 @@ function update(Request $req){
                   ->with('update',$update);
     }
 
+   //view profile
+   function viewprofile(Request $req){
+
+   $name=$req->session()->get('uname');
+        $update = DB::table('users')
+                   ->where('username',$name)
+                   ->get();
+                    
+        return view('admin.viewprofile')
+                  ->with('update',$update);
+    } 
+
 
   public function update_save(Request $req){
 
         $validation = Validator::make($req->all(), [
             'name'            => 'required',
             'password'        => 'required',
-            'email'           => 'required|unique:users|email',
+            'email'           => 'required',
+          // 'email'           => 'required|unique:users|email',
+            'email'           => 'required|email',
             'phone'           => 'bail|required|size:11',
             'address'         => 'required',
 
@@ -161,10 +175,11 @@ function updateEmp_post(Request $req,$id){
                  $validation = Validator::make($req->all(), [
             'name'            => 'required',
             'password'        => 'required',
-            'email'           => 'required|unique:users|email',
+            'email'           => 'required',
+             //'email'           => 'required|unique:users|email',
             'phone'           => 'bail|required|size:11',
             'address'         => 'required',
-             'salary'         => 'required',
+            'salary'         => 'required',
 
 
         ]);
@@ -244,7 +259,7 @@ function addadmin(){
 public function addadmin_save(Request $req){
 
         $validation = Validator::make($req->all(), [
-            'name'            => 'required',
+           'name'            => 'required',
             'username'        => 'required|unique:users',
             'password'        => 'required',
             'email'           => 'required|unique:users|email',
@@ -266,17 +281,33 @@ public function addadmin_save(Request $req){
             }
 
               else
+              {
+              	 if($req->hasFile('pic')){
+                    $file = $req->file('pic');
+                    $image=date('mdYHis') . uniqid() .$file->getClientOriginalName();
+                     if($file->move('image',$image)){
 
-             {
+             
                DB::table('users')->insert(
-             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$req->image,'userType'=>'admin' ]
+             ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$image,'userType'=>'admin' ]
             );
           $req->session()->flash('msg', 'Admin Has been Added Successfully');
            return view('admin.addadmin');
+                      }
+                     else{
+                               return redirect()->route('admin.addadmin ');
+                         }
+
+                         }
+                         else{
+                               echo "File not found!";
+                            }
 
 
            }
        }
+
+
 
 
 //add manager
@@ -299,7 +330,7 @@ function addmanager(){
             'address'         => 'required',
             'gender'          => 'required',
             'salary'          => 'required',
-
+             //'Image'          => 'required',
         ]);
 
        if($validation->fails()){
@@ -319,6 +350,7 @@ function addmanager(){
                     $file = $req->file('pic');
                     $image=date('mdYHis') . uniqid() .$file->getClientOriginalName();
                      if($file->move('image',$image)){
+
                DB::table('users')->insert(
              ['name' =>$req->name ,'username'=>$req->username ,'password'=>$req->password , 'email'=>$req->email , 'phone'=>$req->phone ,'address'=>$req->address , 'gender'=>$req->gender , 'salary'=>$req->salary,'image'=>$image,'userType'=>'manager' ]
             );
@@ -436,7 +468,7 @@ function ingredient(){
     }
 
 //pdf
-        public function export( $id)
+        public function export1( $id)
            {
                $data = DB::table('users')->where('id',$id)->orderBy('id','DESC')->first();
                $proData="";
@@ -454,7 +486,7 @@ function ingredient(){
                    $proData .='</table>';
                }
                header('Content-Type: application/xls');
-               header('Content-Disposition: attachment; filename=order receipt.xls');
+               header('Content-Disposition: attachment; filename=emp_info.xls');
                echo $proData;
                //var_dump($data);
                //echo count($data);
@@ -463,7 +495,7 @@ function ingredient(){
 
            //food excl
 
-         public function export1( $id)
+         public function export( $id)
            {
                $data = DB::table('food')->where('id',$id)->orderBy('id','DESC')->first();
                $proData="";
@@ -481,11 +513,118 @@ function ingredient(){
                    $proData .='</table>';
                }
                header('Content-Type: application/xls');
-               header('Content-Disposition: attachment; filename=order receipt.xls');
+               header('Content-Disposition: attachment; filename=Food details.xls');
                echo $proData;
                //var_dump($data);
                //echo count($data);
                //return response()->json($data);
            }
+               
 
+               function history(){
+
+
+        return view('admin.history');
+      }
+
+
+          //delman excl
+
+         public function downloadman()
+           {
+               $data1 = DB::table('users')
+                        ->where('userType','manager')
+                        ->select(DB::raw("SUM(salary)"))
+                        ->get();
+              $data = DB::table('users')
+                           ->where('userType','manager')
+                           ->pluck('salary','username');
+               $proData="";
+               if(count((array)$data)>0){
+                   $proData .='<table align="center">
+                   ';
+
+                   foreach ($data as $key=>$item) {
+                        $proData .='
+                        <tr>
+                        <td>'.$key.'</td>
+                        <td align="center">'.$item.'</td>
+                        </tr>';
+                   }
+                   $proData .='</table>';
+               }
+               header('Content-Type: application/xls');
+               header('Content-Disposition: attachment; filename= All Managers Salary.xls');
+               echo $proData;
+               echo $data1;
+               //var_dump($data);
+               //echo count($data);
+               //return response()->json($data);
+           }
+           //delman excl
+
+         public function downloademp()
+           {
+               $data1 = DB::table('users')
+                        ->where('userType','admin')
+                        ->select(DB::raw("SUM(salary)"))
+                        ->get();
+              $data = DB::table('users')
+                           ->where('userType','admin')
+                           ->pluck('salary','username');
+               $proData="";
+               if(count((array)$data)>0){
+                   $proData .='<table align="center">
+                   ';
+
+                   foreach ($data as $key=>$item) {
+                        $proData .='
+                        <tr>
+                        <td>'.$key.'</td>
+                        <td align="center">'.$item.'</td>
+                        </tr>';
+                   }
+                   $proData .='</table>';
+               }
+               header('Content-Type: application/xls');
+               header('Content-Disposition: attachment; filename=All Admins Salary.xls');
+               echo $proData;
+               echo $data1;
+               //var_dump($data);
+               //echo count($data);
+               //return response()->json($data);
+           }
+           //delman excl
+
+         public function downloaddel()
+           {
+               $data1 = DB::table('users')
+                        ->where('userType','delivery_m')
+                        ->select(DB::raw("SUM(salary)"))
+                        ->get();
+              $data = DB::table('users')
+                           ->where('userType','delivery_m')
+                           ->pluck('salary','username');
+               $proData="";
+               if(count((array)$data)>0){
+                   $proData .='<table align="center">
+                   ';
+
+                   foreach ($data as $key=>$item) {
+                        $proData .='
+                        <tr>
+                        <td>'.$key.'</td>
+                        <td align="center">'.$item.'</td>
+                        </tr>';
+                   }
+                   $proData .='</table>';
+               }
+               header('Content-Type: application/xls');
+               header('Content-Disposition: attachment; filename=All deliverymans Salary.xls');
+               echo $proData;
+               echo $data1;
+               //var_dump($data);
+               //echo count($data);
+               //return response()->json($data);
+           }
 }

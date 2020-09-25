@@ -3,7 +3,7 @@
 <head>
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coffee Shop Management System | Ingredient</title>
+    <title>Coffee Shop Management System | AddAdmin</title>
     <link rel="stylesheet" type="text/css" href="abc/style.css">
     <!-- BOOTSTRAP STYLES-->
     <link href="/abc/css/bootstrap.css" rel="stylesheet" />
@@ -42,7 +42,8 @@
                 </div>
               
                 <span class="logout-spn" >
-                 <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
+                <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
+
 
                 </span>
             </div>
@@ -54,14 +55,15 @@
                  
 
 
-                    <li class="active-link">
+                    <li >
                         <a href="/admin" ><i class="fa fa-desktop "></i>Dashboard <span class="badge"></span></a>
                     </li>
+                    
                    <li >
                         <a href="/admin/admin_request" ><i class="fa fa-bell "></i>Customer Request <span class="badge"></span></a>
                     </li>
 
-                    <li>
+                    <li class="active-link">
                         <a href="/admin/update"><i class="fa fa-edit "></i>Update Profile  <span class="badge"></span></a>
                     </li>
                     <li >
@@ -82,10 +84,9 @@
                     <li >
                         <a href="/admin/adddelivery"><i class="fa fa-plus"></i>Add Delivery Man</a>
                     </li>
-                      <li>
+                    <li>
                         <a href="/admin/viewprofile"><i class="fa fa-eye"></i>View profile</a>
                     </li>
-
                     <li>
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
@@ -97,7 +98,8 @@
                             </div>
 
         </nav>
-        <!-- /. NAV SIDE  -->
+           
+ <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
@@ -107,25 +109,71 @@
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-            <center><h1>Ingredient</h1></center> 
 
-          
-       <form >
-         <div class="form-group row">
-     <h4><label for="inputText3" class="col-sm-2 col-form-label">Name : </label></h4>
+
+<div class="form-group row">
+    <label for="inputText3" class="col-sm-2 col-form-label">All Salary Of Managers</label>
     <div class="col-sm-10">
-      <h4><label for="inputText3" class="">Black Coffee</label></h4>
+      <button onclick="document.location='/admin/downloadman'" type="button" class="btn btn-warning">download</button></center>
+    </div>
+  </div>
+         <div class="form-group row">
+    <label for="inputText3" class="col-sm-2 col-form-label">All Salary Of Admin </label>
+    <div class="col-sm-10">
+      <button onclick="document.location='/admin/downloademp'" type="button" class="btn btn-warning">download</button></center>
     </div>
   </div>
   <div class="form-group row">
-     <h4><label for="inputdetails" class="col-sm-2 col-form-label">Details :</label> </h4>
+    <label for="inputText3" class="col-sm-2 col-form-label">All Salary Of Deliveryman</label>
     <div class="col-sm-10">
-      <h4> <label for="inputdetails" class="">     Black coffee is the powerhouse of antioxidants. Black coffee contains Vitamin B2, B3, B5, Manganese, potassium and magnesium</label></h4>
-
+    <button onclick="document.location='/admin/downloaddel'" type="button" class="btn btn-warning">download</button></center>
     </div>
   </div>
-  
-</form>
+  <div class="form-group row">
+
+                     <!-- <?php  
+ $connect = mysqli_connect("localhost", "root", "", "laravel");  
+ $query = "SELECT userType , count(*) as number FROM users GROUP BY userType";  
+ $result = mysqli_query($connect, $query);  
+ ?>  --> 
+
+
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>  
+           <script type="text/javascript">  
+           google.charts.load('current', {'packages':['corechart']});  
+           google.charts.setOnLoadCallback(drawChart);  
+           function drawChart()  
+           {  
+                var data = google.visualization.arrayToDataTable([  
+                          ['userType', 'Number'],  
+                          <?php  
+                          while($row = mysqli_fetch_array($result))  
+                          {  
+                               echo "['".$row["userType"]."', ".$row["number"]."],";  
+                          }  
+                          ?>  
+                     ]);  
+                var options = {  
+                      
+                      is3D:true,  
+                      pieHole: 0.4  
+                     };  
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));  
+                chart.draw(data, options);  
+           }  
+           </script>  
+
+
+<br /><br /> 
+                <center><h2 align="center">User Percentages:</h2>  
+               
+                <div id="piechart" style="width: 900px; height: 600px;"></div>  </center>
+           </div> 
+                                 
+
+  </div>
+ 
+  </div>
 
 
     </div>

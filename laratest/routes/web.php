@@ -10,18 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/invoice', function(){
-	//return view('invoice');
-	$pdf = PDF::loadview('invoice');
-	return $pdf->download('invoice.pdf');
-});
 
 //login
 Route::get('/login', 'LoginController@index')->name('login.index');
 Route::post('/login', 'LoginController@verify')->name('login.index');
 
-
-//Route::get('pdfview',array('as'=>'pdfview','uses'=>'ItemController@pdfview'));
 
 Route::group(['middleware'=>['sess']], function(){
 
@@ -46,8 +39,12 @@ Route::get('admin/updateuser', 'HomeController@updateuser');
 Route::get('admin/update/{id}', 'HomeController@updateEmp');
 Route::post('admin/update/{id}', 'HomeController@updateEmp_post');
 Route::get('admin/download/{id}', 'HomeController@export');
-Route::get('admin/download/{id}', 'HomeController@export1');
-
+Route::get('admin/download1/{id}', 'HomeController@export1');
+Route::get('admin/history', 'HomeController@history');
+Route::get('admin/downloadman', 'HomeController@downloadman');
+Route::get('admin/downloademp', 'HomeController@downloademp');
+Route::get('admin/downloaddel', 'HomeController@downloaddel');
+Route::get('admin/viewprofile', 'HomeController@viewprofile');
 Route::get('admin/delete/{id}', 'HomeController@delete');
 Route::get('admin/ingredient', 'HomeController@ingredient');
 

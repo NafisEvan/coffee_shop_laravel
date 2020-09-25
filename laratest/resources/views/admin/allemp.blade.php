@@ -83,6 +83,9 @@
                     <li>
                         <a href="/admin/adddelivery"><i class="fa fa-plus"></i>Add Delivery Man</a>
                     </li>
+                     <li>
+                        <a href="/admin/viewprofile"><i class="fa fa-eye"></i>View profile</a>
+                    </li>
                     <li>
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
@@ -138,7 +141,7 @@
                 <td>{{$employee->userType}} </td>
                 <td><center><button onclick="document.location='/admin/update/{{$employee->id}} '" type="button" class="btn btn-info">Update</button>
                     <button onclick="document.location='/admin/delete/{{$employee->id}} '" type="button" class="btn btn-danger">Delete</button>
-                    <button onclick="document.location='/admin/download/{{$employee->id}} '" type="button" class="btn btn-warning">download</button></td>
+                    <button onclick="document.location='/admin/download1/{{$employee->id}} '" type="button" class="btn btn-warning">download</button></td>
 
                 </center>
             </tr>

@@ -3,7 +3,7 @@
 <head>
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coffee Shop Management System | Ingredient</title>
+    <title>Coffee Shop Management System | AddAdmin</title>
     <link rel="stylesheet" type="text/css" href="abc/style.css">
     <!-- BOOTSTRAP STYLES-->
     <link href="/abc/css/bootstrap.css" rel="stylesheet" />
@@ -42,7 +42,8 @@
                 </div>
               
                 <span class="logout-spn" >
-                 <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
+                <button type="button" onclick="document.location='/logout'" class="btn btn-danger">Logout</button>
+
 
                 </span>
             </div>
@@ -54,14 +55,15 @@
                  
 
 
-                    <li class="active-link">
+                    <li >
                         <a href="/admin" ><i class="fa fa-desktop "></i>Dashboard <span class="badge"></span></a>
                     </li>
+                    
                    <li >
                         <a href="/admin/admin_request" ><i class="fa fa-bell "></i>Customer Request <span class="badge"></span></a>
                     </li>
 
-                    <li>
+                    <li class="active-link">
                         <a href="/admin/update"><i class="fa fa-edit "></i>Update Profile  <span class="badge"></span></a>
                     </li>
                     <li >
@@ -82,10 +84,9 @@
                     <li >
                         <a href="/admin/adddelivery"><i class="fa fa-plus"></i>Add Delivery Man</a>
                     </li>
-                      <li>
+                     <li>
                         <a href="/admin/viewprofile"><i class="fa fa-eye"></i>View profile</a>
                     </li>
-
                     <li>
                         <a href="/admin/history"><i class="fa fa-history"></i>History</a>
                     </li>
@@ -107,24 +108,53 @@
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-            <center><h1>Ingredient</h1></center> 
-
-          
-       <form >
-         <div class="form-group row">
-     <h4><label for="inputText3" class="col-sm-2 col-form-label">Name : </label></h4>
+            <center><h1>Admin Profile</h1></center>   
+                   
+       <form method="post">
+         @foreach($update as $updates) 
+            <div class="form-group row">
+    <label for="inputText3" class="col-sm-2 col-form-label">User Name</label>
     <div class="col-sm-10">
-      <h4><label for="inputText3" class="">Black Coffee</label></h4>
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->username}}" readonly="">
+    </div>
+  </div>
+         <div class="form-group row">
+    <label for="inputText3" class="col-sm-2 col-form-label">Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->name}}" name="name" readonly="">
     </div>
   </div>
   <div class="form-group row">
-     <h4><label for="inputdetails" class="col-sm-2 col-form-label">Details :</label> </h4>
+    <label for="inputText3" class="col-sm-2 col-form-label">Password</label>
     <div class="col-sm-10">
-      <h4> <label for="inputdetails" class="">     Black coffee is the powerhouse of antioxidants. Black coffee contains Vitamin B2, B3, B5, Manganese, potassium and magnesium</label></h4>
-
+      <input type="text" class="form-control" id="inputEmail3"value="{{$updates->password}}"name="password" readonly="">
     </div>
   </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" value="{{$updates->email}}"name="email" readonly="">
+    </div>
+  </div>
+   <div class="form-group row">
+    <label for="inputNumber3" class="col-sm-2 col-form-label">Phone</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" id="inputEmail3" name="phone" value="{{$updates->phone}}" readonly="">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-2 col-form-label">Address</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputPassword3"name="address" value="{{$updates->address}}" readonly="">
+    </div>
+  </div>
+
+
   
+   
+@endforeach
+ 
+
 </form>
 
 
